@@ -9,10 +9,10 @@
  * l298n接口从左到右依次为左速，左旋转，左旋转，右旋转，右旋转，右速
  * 
  */
-int wheelArr[8] = {0, 1, 2, 3, 4, 5, 7, 8};
+int wheelArr[8] = {2,3,4,5,6,7,8,9};
 int lf[8] = {0, 1, 0, 0, 0, 0, 0, 1};//左前
 int rf[8] = {0, 0, 0, 1, 0, 1, 0, 0};//右前
-int speedArr[4] = {6, 9, 10, 11};
+int speedArr[4] = {10,11,12,13};
 void setup()
 {
   int i = 0;
@@ -20,11 +20,12 @@ void setup()
   for (i = 0; i < 12; i++) {//1-11设置为减速电机信号输出
     pinMode(i, OUTPUT);
   }
-  pinMode(12, INPUT);//12为寻迹传感器输入信号，白线为高电平
-  
-  for (i = 0; i < 4; i++) {
-    analogWrite(speedArr[i], 140);
-  }
+  pinMode(52, INPUT);//12为寻迹传感器输入信号，白线为高电平
+ 
+analogWrite(speedArr[0], 140);
+analogWrite(speedArr[1],140);
+analogWrite(speedArr[2], 140);
+analogWrite(speedArr[3], 140);
 
   for (int i = 0; i < 8; i++) {//初始状态为左前
     digitalWrite(wheelArr[i], lf[i]);
@@ -33,15 +34,16 @@ void setup()
 }
 void loop()
 {
-  if(digitalRead(12)==1){
-    for (int i = 0; i < 8; i++) {
-      digitalWrite(wheelArr[i], lf[i]);
-    }
-  }else{
-    for (int i = 0; i < 8; i++) {
-      digitalWrite(wheelArr[i], rf[i]);
-    }
+  if(digitalRead(52)==1){
+//    for (int i = 0; i < 8; i++) {
+//      digitalWrite(wheelArr[i], lf[i]);
+//    }
+//  }else{
+//    for (int i = 0; i < 8; i++) {
+//      digitalWrite(wheelArr[i], rf[i]);
+//    }
+    
   }
-  delay(200);
+  delay(100);
 }
 
