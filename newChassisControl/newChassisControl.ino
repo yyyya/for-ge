@@ -15,6 +15,7 @@ int wheelArr[8] = {2, 3, 4, 5, 6, 7, 8, 9};
 int lf[8] = {0, 1, 0, 0, 0, 0, 0, 1};//左前
 int rf[8] = {0, 0, 0, 1, 0, 1, 0, 0};//右前
 int speedArr[4] = {10, 11, 12, 13};
+
 void setup()
 {
   int i = 0;
@@ -25,26 +26,38 @@ void setup()
   pinMode(52, INPUT);//52为寻迹传感器输入信号，白线为高电平
 
   for (i = 0; i < 4; i++) {
-    analogWrite(speedArr[i], 140);
+    analogWrite(speedArr[0], 140);
   }
 
   for (int i = 0; i < 8; i++) {//初始状态为左前
-    digitalWrite(wheelArr[i], rf[i]);
+    digitalWrite(wheelArr[i], lf[i]);
   }
 
 }
 void loop()
 {
-//  //寻迹传感器2检测到
-//  if (digitalRead(52) == 1) {
-//        for (int i = 0; i < 8; i++) {
-//          digitalWrite(wheelArr[i], lf[i]);
-//        }
-//      }else{
-//        for (int i = 0; i < 8; i++) {
-//          digitalWrite(wheelArr[i], rf[i]);
-//        }
-//  }
-//  delay(100);
+  traceLine();
 }
+
+int traceLine() {
+  while (1) {
+    //interrupt,RFID读卡器检测到地面芯片，产生中断信号
+    if (digitalRead(52) == 1) {
+      for (int i = 0; i < 8; i++) {
+        digitalWrite(wheelArr[i], lf[i]);
+      }
+    } else {
+      for (int i = 0; i < 8; i++) {
+        digitalWrite(wheelArr[i], rf[i]);
+      }
+    }
+    delay(100);
+  }
+}
+
+int compassInterrupt() {
+  if();//如果当前位置有待放书目，停下，调用步进电机升降
+  //AccelStepper.ino
+}
+
 

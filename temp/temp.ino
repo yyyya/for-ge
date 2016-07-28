@@ -11,12 +11,15 @@
   寻迹传感器1为pin52
 
 */
+#include <LiquidCrystal.h>
+LiquidCrystal lcd(32, 30, 28, 26, 24, 22); //定义脚位
 int wheelArr[8] = {2, 3, 4, 5, 6, 7, 8, 9};
-int lf[8] = {0, 1, 0, 0, 0, 0, 0, 1};//左前
-int rf[8] = {0, 0, 0, 1, 0, 1, 0, 0};//右前
+int rf[8] = {0, 1, 0, 0, 0, 0, 0, 1};
+int lf[8] = {0, 0, 0, 1, 0, 1, 0, 0};
 int speedArr[4] = {10, 11, 12, 13};
 void setup()
 {
+  lcd.begin(16, 2);
   int i = 0;
 
   for (i = 0; i < 12; i++) {//设置为减速电机信号输出
@@ -28,23 +31,27 @@ void setup()
     analogWrite(speedArr[i], 140);
   }
 
+lcd.print("Turn left...");
   for (int i = 0; i < 8; i++) {//初始状态为左前
-    digitalWrite(wheelArr[i], rf[i]);
+    digitalWrite(wheelArr[i], lf[i]);
   }
 
 }
 void loop()
 {
-//  //寻迹传感器2检测到
-//  if (digitalRead(52) == 1) {
-//        for (int i = 0; i < 8; i++) {
-//          digitalWrite(wheelArr[i], lf[i]);
-//        }
-//      }else{
-//        for (int i = 0; i < 8; i++) {
-//          digitalWrite(wheelArr[i], rf[i]);
-//        }
-//  }
-//  delay(100);
+  //寻迹传感器2检测到
+  if (digitalRead(52) == 1) {
+        for (int i = 0; i < 8; i++) {
+          digitalWrite(wheelArr[i], lf[i]);
+          lcd.clear();
+          lcd.print("Turn left...");
+        }
+      }else{
+        for (int i = 0; i < 8; i++) {
+          digitalWrite(wheelArr[i], rf[i]);
+          lcd.clear();
+          lcd.print("Turn right...");
+        }
+  }
+  delay(100);
 }
-
